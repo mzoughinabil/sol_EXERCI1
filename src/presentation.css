@@ -1,0 +1,501 @@
+/* ===================================================
+   PROFESSIONAL MATH PRESENTATION — 4K 16:9 Layout
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* ─── Root & stage ─────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0a0e1a;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+.presentation-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(ellipse at 60% 40%, #0d1b3e 0%, #06091a 100%);
+  gap: 0;
+}
+
+/* ─── Stage ─────────────────────────────────────────── */
+.stage {
+  /* 16:9 aspect ratio, fills most of viewport */
+  width: min(96vw, calc(96vh * (16 / 9)));
+  height: min(calc(96vw * (9 / 16)), 88vh);
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06),
+    0 40px 120px rgba(0,0,0,0.9),
+    0 0 60px rgba(30, 58, 138, 0.3);
+}
+
+/* ─── Animations ─────────────────────────────────────── */
+.slide-anim {
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.slide-anim.enter {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.slide-anim.exit-left {
+  opacity: 0;
+  transform: translateX(-3%) scale(0.98);
+}
+
+.slide-anim.exit-right {
+  opacity: 0;
+  transform: translateX(3%) scale(0.98);
+}
+
+/* ─── Slide wrapper ──────────────────────────────────── */
+.slide-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(145deg, #0f172a 0%, #111827 50%, #0c1420 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* decorative grid lines */
+.slide-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* decorative corner glow */
+.slide-wrapper::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 55%;
+  height: 55%;
+  background: radial-gradient(ellipse, rgba(99,102,241,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ─── Header strip ───────────────────────────────────── */
+.slide-header {
+  height: 6px;
+  width: 100%;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.slide-section {
+  display: none;
+}
+
+/* ─── Title bar ──────────────────────────────────────── */
+.slide-title-bar {
+  padding: 2.2% 4% 1.5%;
+  border-bottom: 1.5px solid;
+  border-color: rgba(255,255,255,0.08);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.slide-title {
+  font-size: clamp(1.1rem, 2.6vw, 2.1rem);
+  font-weight: 800;
+  color: #f1f5f9;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.slide-title .katex {
+  font-size: 1em;
+}
+
+/* ─── Content area ───────────────────────────────────── */
+.slide-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1.1vh, 18px);
+  padding: clamp(8px, 1.8vh, 28px) 4% clamp(4px, 1vh, 14px);
+  position: relative;
+  z-index: 2;
+}
+
+/* ─── Footer ─────────────────────────────────────────── */
+.slide-footer {
+  height: clamp(24px, 3.5vh, 42px);
+  padding: 0 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1.5px solid;
+  background: rgba(0,0,0,0.3);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.slide-footer span {
+  font-size: clamp(0.55rem, 1vw, 0.75rem);
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.5);
+}
+
+.slide-number {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ─── Controls ───────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+  z-index: 10;
+}
+
+.ctrl-btn {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 1.6rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.ctrl-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.3);
+  transform: scale(1.08);
+}
+
+.ctrl-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.dots {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.dot:hover {
+  transform: scale(1.4);
+  background: rgba(255,255,255,0.5) !important;
+}
+
+.dot-active {
+  width: 24px;
+  border-radius: 4px;
+  transform: none !important;
+}
+
+.kbd-hint {
+  color: rgba(255,255,255,0.22);
+  font-size: 0.65rem;
+  margin-top: 6px;
+  letter-spacing: 0.08em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* =========================================
+   SLIDE BLOCKS
+   ========================================= */
+
+/* ─── text ─── */
+.block-text {
+  color: #cbd5e1;
+  font-size: clamp(0.75rem, 1.4vw, 1.05rem);
+  line-height: 1.55;
+}
+
+/* ─── math display ─── */
+.block-math-display {
+  text-align: center;
+  padding: clamp(4px, 0.8vh, 14px) 0;
+}
+
+.block-math-display .katex-display {
+  margin: 0;
+}
+
+/* ─── divider ─── */
+.block-divider {
+  border-top: 1px solid;
+  opacity: 0.5;
+}
+
+/* ─── alert ─── */
+.block-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(251, 191, 36, 0.07);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  border-left: 4px solid #f59e0b;
+  border-radius: 6px;
+  padding: clamp(6px, 1vh, 14px) clamp(10px, 1.5vw, 18px);
+}
+
+.alert-icon {
+  font-size: clamp(0.9rem, 1.6vw, 1.3rem);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.alert-text {
+  color: #fcd34d;
+  font-size: clamp(0.65rem, 1.2vw, 0.88rem);
+  line-height: 1.5;
+}
+
+/* ─── highlight ─── */
+.block-highlight {
+  border-left: 4px solid;
+  border-radius: 0 6px 6px 0;
+  padding: clamp(6px, 1vh, 14px) clamp(12px, 1.8vw, 22px);
+}
+
+.highlight-item {
+  font-size: clamp(0.7rem, 1.3vw, 0.95rem);
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.highlight-item + .highlight-item {
+  margin-top: 4px;
+}
+
+/* ─── equation table ─── */
+.eq-table {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2px, 0.5vh, 8px);
+  border-left: 3px solid rgba(255,255,255,0.1);
+  padding-left: clamp(10px, 1.5vw, 20px);
+}
+
+.eq-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: clamp(4px, 0.7vh, 10px) 0;
+  border-bottom: 1px solid;
+}
+
+.eq-row:last-child {
+  border-bottom: none;
+}
+
+.eq-label {
+  font-size: clamp(0.6rem, 1.05vw, 0.78rem);
+  color: #94a3b8;
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+.eq-body {
+  /* let KaTeX center itself */
+}
+
+.eq-body .katex-display {
+  margin: 0.1em 0;
+  text-align: left;
+}
+
+.eq-body .katex {
+  font-size: clamp(0.8rem, 1.5vw, 1.15rem) !important;
+}
+
+/* ─── step block ─── */
+.block-step {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.step-label {
+  padding: clamp(4px, 0.7vh, 10px) clamp(10px, 1.5vw, 18px);
+  color: #fff;
+  font-size: clamp(0.6rem, 1.1vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.step-body {
+  padding: clamp(8px, 1.2vh, 18px) clamp(12px, 1.8vw, 22px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.8vh, 12px);
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.step-item-label {
+  font-size: clamp(0.6rem, 1vw, 0.75rem);
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.step-item .katex-display {
+  margin: 0;
+  text-align: left;
+}
+
+.step-item .katex {
+  font-size: clamp(0.8rem, 1.4vw, 1.1rem) !important;
+}
+
+/* ─── conclusion ─── */
+.block-conclusion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1.5px solid;
+  border-radius: 8px;
+  padding: clamp(6px, 1vh, 16px) clamp(14px, 2vw, 26px);
+  margin-top: auto;
+}
+
+.conclusion-icon {
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  flex-shrink: 0;
+}
+
+.conclusion-text {
+  font-size: clamp(0.7rem, 1.3vw, 0.98rem);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* ─── bullet list ─── */
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.8vh, 12px);
+}
+
+.bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.bullet-icon {
+  font-size: clamp(0.85rem, 1.5vw, 1.15rem);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.bullet-text {
+  color: #e2e8f0;
+  font-size: clamp(0.65rem, 1.25vw, 0.92rem);
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bullet-sub {
+  color: #94a3b8;
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+/* ─── badge row ─── */
+.badge-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.badge {
+  border: 1.5px solid;
+  border-radius: 8px;
+  padding: clamp(6px, 1vh, 12px) clamp(12px, 1.8vw, 22px);
+  font-size: clamp(0.62rem, 1.1vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  flex: 1;
+  text-align: center;
+}
+
+/* ─── columns ─── */
+.block-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ─── KaTeX global overrides ─── */
+.katex {
+  color: #f1f5f9 !important;
+  font-size: clamp(0.8rem, 1.4vw, 1.05rem) !important;
+}
+
+.katex-display {
+  color: #f1f5f9 !important;
+}
+
+.block-math-display .katex {
+  font-size: clamp(1rem, 1.8vw, 1.4rem) !important;
+}
+
+/* boxed */
+.katex .boxed {
+  border-color: rgba(255,255,255,0.5) !important;
+}
+
+/* ─── Slide 0 special: title slide ─── */
+.slide-wrapper:has(.badge-row) .slide-title-bar {
+  padding-top: 3%;
+}
